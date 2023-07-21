@@ -89,7 +89,7 @@ module.exports = (sequelize) => {
 //     Usuario.hasMany(models.Oc, { foreignKey: 'idusuario', as: 'ordenes' });
 //   };
 
-//   return Usuario;
+  return Usuario;
 
 
 
