@@ -19,8 +19,27 @@ async function getProducts(req, res) {
         productos: rows,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ mensaje: 'Error al obtener la lista de productos' });
+      console.error(error.message);
+      res.status(500).json({ error: error.message });
     }
 }
 
+async function obtenerProductoPorId(req, res) {
+  const { id } = req.params;
+
+  try {
+    const respuesta = await Product.findByPk(id)
+    if (!respuesta) {
+      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    }
+    const {nombreproducto, descproducto, colorproducto, fotoprinc, precioproducto, disponibproducto} = respuesta
+    const producto = {id, nombreproducto, descproducto, colorproducto, fotoprinc, precioproducto, disponibproducto}
+    res.json(producto);
+    console.log(JSON.stringify(respuesta))
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al obtener el producto' });
+  }
+}
+
+module.exports = {getProducts, obtenerProductoPorId}
