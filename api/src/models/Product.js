@@ -42,7 +42,11 @@ module.exports = (sequelize) => {
         defaultValue: false 
       },
       calificacionproducto: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER)
+        type: DataTypes.ARRAY(DataTypes.INTEGER) 
+      },
+      categoria: {
+        type: DataTypes.STRING, 
+        allowNull: true 
       }
     });
   

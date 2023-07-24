@@ -26,6 +26,7 @@ const populateDatabase = async () => {
         fotosecund: [],
         borrador: false,
         calificacionproducto: [4, 5, 3],
+        categoria: "Placas de video"
       },
       {
         nombreproducto: 'MONITOR 19" PHILIPS 193V5LHSB2/55 LED HD 60HZ VGA HDMI',
@@ -37,6 +38,7 @@ const populateDatabase = async () => {
         fotosecund: [],
         borrador: false,
         calificacionproducto: [4, 5, 3],
+        categoria: "Monitores"
       },
       {
         nombreproducto: 'VIDEO GEFORCE RTX 3070 8GB GIGABYTE GAMING OC LHR',
@@ -48,6 +50,7 @@ const populateDatabase = async () => {
         fotosecund: [],
         borrador: false,
         calificacionproducto: [4, 5, 3],
+        categoria: "Placas de video"
       },
       {
         nombreproducto: 'MONITOR 19" PHILIPS 193V5LHSB2/55 LED HD 60HZ VGA HDMI',
@@ -59,7 +62,7 @@ const populateDatabase = async () => {
         fotosecund: [],
         borrador: false,
         calificacionproducto: [4, 5, 3],
-      
+        categoria: "Monitores"
       },
       // seguir agregando productos si es que funciona esta cosa 
 
