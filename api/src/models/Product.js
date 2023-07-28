@@ -15,10 +15,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING, 
         allowNull: true 
       },
-      colorproducto: { 
-        type: DataTypes.ARRAY(DataTypes.STRING), 
-        allowNull: true 
-      },
       fotoprinc: { 
         type: DataTypes.STRING, 
         allowNull: true 
