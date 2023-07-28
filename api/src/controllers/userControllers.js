@@ -1,12 +1,14 @@
-const { User } = require('../db');
+const { User } = require('../db.js');
+const { Op } = require('sequelize');
+
 
 const getUsers = async (req, res) => {
-  try {
-      const users = await User.findAll();
-      res.status(200).json(users);
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  } 
+    try {
+        const users = await User.findAll();
+        return res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    } 
 };
 
 
@@ -25,21 +27,26 @@ const obtenerUserPorId = async (req, res) => {
 }
 
 const crearUser = async (req, res) => {
-  const { email, name, nickname, picture, sub, password, fechaNacimiento, direccion, telefono} = req.body
-  const user = req.body
   try{
-      if(!name || !email || !nickname || !password || !fechaNacimiento || !telefono){
-          res.status(422).json({ message: "Falta info"})
-      }
-      else {
-          User.create({user})
-          .then((createdUser) => {
-              res.status(200).json({message:"usuario creado :)"})
-          })
-          .catch((error) => {
-              then(res.status(400).json({msg: error}))
-          })
-      }
+    const { email, name, nickname, picture, sub, password, fechaNacimiento, direccion, telefono} = req.body
+    
+    const newUser = await User.create({
+        name,
+        nickname,
+        email,
+        picture,
+        fechaNacimiento,
+        direccion,
+        telefono,
+        password,
+    });
+    if(!name || !email || !nickname || !password || !fechaNacimiento || !password){
+        res.status(422).json({ message: "Falta info"})
+    }
+    else{
+        console.log(Object.keys(newUser))
+        res.status(201).json(newUser, {message:"usuario creado :)"});
+    }
   } catch (error) {
       res.status(500).json({error : error.message})
   }

@@ -1,10 +1,12 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Usuario = sequelize.define('Usuario', {
+  const User = sequelize.define('User', {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
       primaryKey: true,
     },
     email: {
@@ -13,7 +15,8 @@ module.exports = (sequelize) => {
     },
     emailVerified: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      defaultValue: false,
+      allowNull: true
     },
     name: {
       type: DataTypes.STRING,
@@ -25,12 +28,7 @@ module.exports = (sequelize) => {
     },
     picture: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    sub: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: true
     },
     password: {
       type: DataTypes.STRING,
@@ -46,23 +44,23 @@ module.exports = (sequelize) => {
     },
     created_at: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     updated_at: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     last_login: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     },
     last_ip: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     logins_count: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     fechaNacimiento: {
       type: DataTypes.DATE,
@@ -78,9 +76,9 @@ module.exports = (sequelize) => {
     },
   });
   
-  Usuario.associate = (models) => {
-    Usuario.hasMany(models.Oc, { foreignKey: 'idusuario', as: 'ordenes' });
+  User.associate = (models) => {
+    User.hasMany(models.Oc, { foreignKey: 'iduser', as: 'ordenes' });
   };
 
-  return Usuario;
+  return User;
 };
