@@ -27,11 +27,6 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER, 
         allowNull: true 
       },
-      fotosecund: {
-        type: DataTypes.ARRAY(DataTypes.STRING), 
-        allowNull: true, 
-        defaultValue: [], 
-      },
       borrador: { 
         type: DataTypes.BOOLEAN, 
         allowNull: true, 
