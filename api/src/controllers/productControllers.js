@@ -69,14 +69,16 @@ const crearProducto = async (req, res) => {
 };
 
 
+
+
 const buscarProductos = async (req, res) => {
   try {
-    const { prod, cate, page, limit, color, price } = req.query;
+    const { prod, cate, page, limit, minPrice, maxPrice, disp } = req.query;
     const pageNumber = parseInt(page) || 1;
     const pageSize = parseInt(limit) || 10;
     const offset = (pageNumber - 1) * pageSize;
     const arrayCondiciones = [];
-    let condicionCat = '';
+    let condicionCat = {};
 
     const orden = [];
     arrayCondiciones.push({ borrador: false });
@@ -85,23 +87,32 @@ const buscarProductos = async (req, res) => {
       arrayCondiciones.push({ nombreproducto: { [Op.iLike]: `%${prod}%` } });
     }
     if (cate) {
-      condicionCat = { categoria: cate };
+      condicionCat = { categoria: { [Op.iLike]: `%${cate}%` } };
     }
-    if (color) {
-      arrayCondiciones.push({ colorproducto: { [Op.overlap]: [color] } });
+    if (minPrice) {
+      arrayCondiciones.push({ precioproducto: { [Op.gte]: parseFloat(minPrice) } });
     }
-    if (price) {
-      orden.push('precioproducto');
-      if (price === 'up') orden.push('ASC');
-      if (price === 'down') orden.push('DESC');
+    if (maxPrice) {
+      arrayCondiciones.push({ precioproducto: { [Op.lte]: parseFloat(maxPrice) } });
+    }
+    if (disp) {
+      if (!isNaN(disp)) { // Verificar si disp es un número
+        arrayCondiciones.push({ disponibproducto: parseInt(disp) }); // Convertir disp a número y buscar coincidencias exactas
+      }
     }
 
-    const { count, rows } = await db.Product.findAndCountAll({
-      order: orden.length ? [orden] : [],
+    const { count, rows } = await Product.findAndCountAll({
+      order: orden.length ? orden : [],
       where: { [Op.and]: arrayCondiciones, ...condicionCat },
       offset,
       limit: pageSize,
     });
+
+    if (count === 0) {
+      return res.json({
+        message: 'No se encontraron los criterios de búsqueda especificados.',
+      });
+    }
 
     const totalPages = Math.ceil(count / pageSize);
     const arrayRespuesta = rows.map((producto) => {
@@ -142,6 +153,9 @@ const buscarProductos = async (req, res) => {
     res.status(500).json({ error: 'Error al buscar productos' });
   }
 };
+
+
+
 
 
 module.exports = {getProducts, obtenerProductoPorId, crearProducto, buscarProductos}
