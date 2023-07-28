@@ -9,6 +9,8 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   dialect: 'postgres',
 });
 
+
+
 // Función para poblar la base de datos con productos
 const populateDatabase = async () => {
   try {
@@ -19,11 +21,10 @@ const populateDatabase = async () => {
       {
         nombreproducto: 'VIDEO GEFORCE RTX 3070 8GB GIGABYTE GAMING OC LHR',
         descproducto: 'Multiprocesadores NVIDIA Ampere Streaming , Núcleos RT de segunda generación,Núcleos de tensor de tercera generación,Desarrollado por GeForce RTX ™ 3070, Integrado con interfaz de memoria GDDR6 de 256 bits de 8 GB',
-        colorproducto: ['Negro'],
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/video-geforce-rtx-3070-8gb-gigabyte-gaming-oc-lhr-0.jpg",
-        precioproducto: 10,
+        precioproducto: 1000,
         disponibproducto: 20,
-        fotosecund: [],
+        
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Placas de video"
@@ -31,11 +32,9 @@ const populateDatabase = async () => {
       {
         nombreproducto: 'MONITOR 19" PHILIPS 193V5LHSB2/55 LED HD 60HZ VGA HDMI',
         descproducto: 'LCD TFT, Sistema W-LED, 18,5 pulg / 47 cm, Resolución óptima: 1366 x 768 a 60 Hz',
-        colorproducto: ['Azul', 'Negto'],
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/18/monitor-19-philips-193v5lhsb255-led-hd-60hz-vga-hdmi-0.jpg",
         precioproducto: 10,
         disponibproducto: 20,
-        fotosecund: [],
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Monitores"
@@ -43,11 +42,11 @@ const populateDatabase = async () => {
       {
         nombreproducto: 'VIDEO GEFORCE RTX 3070 8GB GIGABYTE GAMING OC LHR',
         descproducto: 'Multiprocesadores NVIDIA Ampere Streaming , Núcleos RT de segunda generación,Núcleos de tensor de tercera generación,Desarrollado por GeForce RTX ™ 3070, Integrado con interfaz de memoria GDDR6 de 256 bits de 8 GB',
-        colorproducto: ['Negro'],
+        
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/video-geforce-rtx-3070-8gb-gigabyte-gaming-oc-lhr-0.jpg",
         precioproducto: 10,
-        disponibproducto: 20,
-        fotosecund: [],
+        disponibproducto: 1,
+        
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Placas de video"
@@ -55,11 +54,11 @@ const populateDatabase = async () => {
       {
         nombreproducto: 'MONITOR 19" PHILIPS 193V5LHSB2/55 LED HD 60HZ VGA HDMI',
         descproducto: 'LCD TFT, Sistema W-LED, 18,5 pulg / 47 cm, Resolución óptima: 1366 x 768 a 60 Hz',
-        colorproducto: ['Azul', 'Negto'],
+        
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/18/monitor-19-philips-193v5lhsb255-led-hd-60hz-vga-hdmi-0.jpg",
         precioproducto: 10,
-        disponibproducto: 20,
-        fotosecund: [],
+        disponibproducto: 4,
+        
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Monitores"
@@ -68,8 +67,16 @@ const populateDatabase = async () => {
 
     ];
 
-    // Crear los registros de productos en la base de datos
-    await Product.bulkCreate(productos);
+     for (const producto of productos) {
+      const existingProduct = await Product.findOne({
+        where: { nombreproducto: producto.nombreproducto },
+      });
+
+      if (!existingProduct) {
+        // Si el producto no existe en la base de datos, se crea
+        await Product.create(producto);
+      }
+    }
 
     console.log('Base de datos poblada con productos');
   } catch (error) {

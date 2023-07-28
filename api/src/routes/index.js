@@ -10,8 +10,9 @@ router.post("/users", crearUser)
 router.get("/products" , getProducts)
 router.get("/products/:id" , obtenerProductoPorId)
 router.post("/products", crearProducto)
-router.get("/products" , buscarProductos)
+router.get("/buscarProductos" , buscarProductos)
 
 
 
 module.exports = router;
+ 
