@@ -9,6 +9,14 @@ module.exports = (sequelize) => {
       unique: true,
       primaryKey: true,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    nickname: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false
@@ -17,14 +25,6 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: true
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    nickname: {
-      type: DataTypes.STRING,
-      allowNull: false
     },
     picture: {
       type: DataTypes.STRING,
@@ -38,33 +38,9 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    isBan: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    last_login: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    last_ip: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    logins_count: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
     fechaNacimiento: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
     },
     direccion:{
       type:DataTypes.STRING,
@@ -72,7 +48,7 @@ module.exports = (sequelize) => {
     },
     telefono:{
       type:DataTypes.STRING,
-      allowNull:true,
+      allowNull:false,
     },
   });
   

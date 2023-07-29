@@ -1,6 +1,4 @@
 const { User } = require('../db.js');
-const { Op } = require('sequelize');
-
 
 const getUsers = async (req, res) => {
     try {
@@ -13,42 +11,42 @@ const getUsers = async (req, res) => {
 
 
 const obtenerUserPorId = async (req, res) => {
+  const { id } = req.params;
+
   try{
-      const user = await User.findByPk(id);
-      if (user) {
-          res.json(user);
-      } 
-      else{
-          res.status(404).json({error: "Usuario no encontrado"})
-      }
-  }catch(error){
-      res.status(500).json({ message: error.message });
+    const respuesta = await User.findByPk(id)
+    if(!respuesta){
+        return res.status(404).json({mensaje: "Usuario no encontrado"});
+    }
+    const { name, nickname, email, picture, password, fechaNacimiento, direccion, telefono} = usuario
+    const usuario = { id, name, nickname, email, picture, password, fechaNacimiento, direccion, telefono}
+    res.json(usuario);
+    console.log(JSON.stringify(respuesta))
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({mensaje: "Error al obtener el usuario"})
   }
 }
 
 const crearUser = async (req, res) => {
   try{
-    const { email, name, nickname, picture, sub, password, fechaNacimiento, direccion, telefono} = req.body
+    const { name, nickname, email, picture, password, fechaNacimiento, direccion, telefono } = req.body
     
     const newUser = await User.create({
-        name,
-        nickname,
-        email,
-        picture,
-        fechaNacimiento,
-        direccion,
-        telefono,
-        password,
+        name, 
+        nickname, 
+        email, 
+        picture, 
+        password, 
+        fechaNacimiento, 
+        direccion, 
+        telefono 
     });
-    if(!name || !email || !nickname || !password || !fechaNacimiento || !password){
-        res.status(422).json({ message: "Falta info"})
-    }
-    else{
-        console.log(Object.keys(newUser))
-        res.status(201).json(newUser, {message:"usuario creado :)"});
-    }
+    console.log(Object.keys(newUser))
+    res.status(201).json(newUser);
   } catch (error) {
-      res.status(500).json({error : error.message})
+    console.error('Error al crear un nuevo usuario:', error);
+    res.status(500).json({ error: 'Error al crear un nuevo usuario' });
   }
 }
 
