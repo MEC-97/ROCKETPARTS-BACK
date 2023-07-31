@@ -58,7 +58,7 @@ fs.readdirSync(path.join(__dirname, '/models'))
   //Define las relaciones entre los modelos
   sequelize.models = Object.fromEntries(capsEntries);
   
-    // const { Carrocompra, Categoria, Ordencompra, Usuario, Producto, Fotoprod, Review,Oc,Detalleoc } = sequelize.models;
+    const { Oc,Detalleoc } = sequelize.models;
   
     // Carrocompra.belongsTo(Usuario, { foreignKey: 'idusuario' });
     // Usuario.hasOne(Carrocompra, { foreignKey: 'idusuario' });
@@ -84,12 +84,12 @@ fs.readdirSync(path.join(__dirname, '/models'))
   // Usuario.hasMany(Review, {foreignKey: 'usuarioId'})
   // Review.belongsTo(Usuario, {foreignKey: 'usuarioId'});
   
-// Oc.hasMany(Detalleoc, {
-//   foreignKey: 'idoc',
-// });
-// Detalleoc.belongsTo(Oc, {
-//   foreignKey: 'idoc',
-// });
+Oc.hasMany(Detalleoc, {
+  foreignKey: 'idoc',
+});
+Detalleoc.belongsTo(Oc, {
+  foreignKey: 'idoc',
+});
     
 // Sincroniza los modelos con la base de datos y establece las relaciones
 // sequelize.sync({ force: false })
