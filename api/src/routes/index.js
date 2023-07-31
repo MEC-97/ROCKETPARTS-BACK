@@ -14,6 +14,5 @@ router.post("/products", crearProducto)
 router.get("/buscarProductos" , buscarProductos)
 
 
-
 module.exports = router;
  
