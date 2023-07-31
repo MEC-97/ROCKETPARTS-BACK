@@ -1,19 +1,13 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Usuario = sequelize.define('Usuario', {
+  const User = sequelize.define('User', {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
       primaryKey: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    emailVerified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
@@ -23,14 +17,18 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    picture: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    sub: {
+    emailVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: true
+    },
+    picture: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: true
     },
     password: {
       type: DataTypes.STRING,
@@ -40,37 +38,9 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    isBan: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    last_login: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    last_ip: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    logins_count: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    nombre:{
-      type:DataTypes.STRING,
-      allowNull: true,
-    },
     fechaNacimiento: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
     },
     direccion:{
       type:DataTypes.STRING,
@@ -78,13 +48,13 @@ module.exports = (sequelize) => {
     },
     telefono:{
       type:DataTypes.STRING,
-      allowNull:true,
+      allowNull:false,
     },
   });
   
-  Usuario.associate = (models) => {
-    Usuario.hasMany(models.Oc, { foreignKey: 'idusuario', as: 'ordenes' });
+  User.associate = (models) => {
+    User.hasMany(models.Oc, { foreignKey: 'iduser', as: 'ordenes' });
   };
 
-  return Usuario;
+  return User;
 };

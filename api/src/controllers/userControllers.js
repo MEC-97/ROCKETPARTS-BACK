@@ -1,144 +1,83 @@
-const { User } = require('../db');
+const { User } = require('../db.js');
 
-const getAllUsers = async (req,res) => {
+const getUsers = async (req, res) => {
     try {
-        const { page, limit } = req.query;
-    
-        // Convertir los valores de página y limite en numeros enteros
-        const pageNumber = parseInt(page);
-        const limitNumber = parseInt(limit);
-    
-        // Calcular el indice de inicio y fin de los datos paginados
-        const startIndex = (pageNumber - 1) * limitNumber;
-        const endIndex = pageNumber * limitNumber;
-    
-        // Obtener todos los usuarios de la base de datos
-        const usuarios = await User.findAll();
-        const totalUsuarios = usuarios.length;
-        // Obtener los datos paginados de los usuarios
-        const usuariosPaginados = usuarios.slice(startIndex, endIndex);
-        const respuesta = {
-          totalUsuarios,
-          paginaActual: pageNumber,
-          usuarios: usuariosPaginados,
-        };
-        // Devolver los datos paginados de los usuarios
-        return res.json(respuesta);
-      } catch (error) {
-        console.error('Error al obtener los datos de los usuarios:', error);
-        res.status(500).json({ error: 'Error del servidor' });
+        const users = await User.findAll();
+        return res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    } 
+};
+
+const obtenerUserPorId = async (req, res) => {
+  const id = req.params.id;
+  try{
+      const user = await User.findByPk(id);
+      if (user) {
+          res.json(user);
+      } 
+      else{
+          res.status(404).json({error: "User not found"})
       }
+  }catch(error){
+      res.status(500).json({ message: error.message });
+  }
 }
 
-const getUser = async (req, res) => {
-    try {
-      // Obtener el sub del usuario desde los parámetros de la solicitud
-      const { sub } = req.params;
-  
-      // Buscar el usuario en la base de datos por el campo 'sub'
-      const usuario = await User.findOne({ where: { sub } });
-  
-      if (!usuario) {
-        // Si el usuario no existe, devolver una respuesta de error
-        return res.status(404).json({ error: 'Usuario no encontrado' });
-      }
-  
-      // Devolver los datos del usuario
-      return res.json(usuario);
-    } catch (error) {
-      // Manejo de errores
-      console.error('Error al obtener los datos del usuario:', error);
-      res.status(500).json({ error: 'Error del servidor' });
-    }
-  };
-
-  const actualizarIsBan = async (req, res) => {
-    const { id } = req.params;
-    try {
-       // Obtener el sub del usuario desde los parámetros de la solicitud
-       
-  
-       // Buscar el usuario en la base de datos por el campo 'sub'
-       const usuario = await User.findByPk(id);
-  
-      if (!usuario) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-  
-      // Obtener el valor actual de 'isBan'
-      const isBanActual = usuario.isBan;
-      // Actualizar el valor de 'isBan' a su valor opuesto
-      usuario.isBan = !isBanActual;
-      await usuario.save();
-      // Agregar texto adicional al correo electrónico según el valor de 'isBan'
-      const correoElectronico = usuario.email;
-  
-      if (usuario.isBan) {
-        // Si 'isBan' es true, agregar el texto adicional
-        usuario.email = `ak564dw ${correoElectronico} kjsef853f`;
-        await usuario.save();
-      } else {
-        // Si 'isBan' es false, revertir el cambio
-        usuario.email = correoElectronico.replace('ak564dw ', '').replace(' kjsef853f', '');
-        await usuario.save();
-      }
-  
-      // Guardar el usuario con el cambio en el correo electrónico y el valor de 'isBan'
-     
-  
-      return res.status(200).json({ message: 'El valor de isBan ha sido actualizado' });
-    } catch (error) {
-      console.error('Error al actualizar isBan:', error);
-      return res.status(500).json({ message: 'Error al actualizar isBan' });
-    }
-  };
-  
-  const actualizarRol = async (req, res) => {
-    const { id } = req.params;
-    try {
-       // Obtener el sub del usuario desde los parámetros de la solicitud
-       
-  
-       // Buscar el usuario en la base de datos por el campo 'sub'
-       const usuario = await User.findByPk(id);
-  
-      if (!usuario) {
-        return res.status(404).json({ message: 'Usuario no encontrado' });
-      }
-  
-      // Actualizar el valor de 'rol' a 1
-      usuario.rol = true;
-      await usuario.save();
-  
-      return res.status(200).json({ message: 'El usuario ahora es Admin' });
-    } catch (error) {
-      console.error('Error al actualizar rol:', error);
-      return res.status(500).json({ message: 'Error al actualizar rol' });
-    }
-  };
-  async function actualizarUsuario(req, res) {
-    const { id } = req.params;
-    const { nombre, direccion, telefono, fechaNacimiento } = req.body;
-  
-    try {
-      const usuario = await User.findByPk(id);
-  
-      if (!usuario) {
-        return res.status(404).json({ mensaje: 'Usuario no encontrado' });
-      }
-  
-      usuario.nombre = nombre || usuario.nombre;
-      usuario.direccion = direccion || usuario.direccion;
-      usuario.telefono = telefono || usuario.telefono;
-      usuario.fechaNacimiento = fechaNacimiento || usuario.fechaNacimiento;
-  
-      await usuario.save();
-  
-      res.json(usuario);
-    } catch (error) {
-      console.error('Error al actualizar el usuario:', error);
-      res.status(500).json({ mensaje: 'Error del servidor' });
-    }
+const crearUser = async (req, res) => {
+  try{
+    const { name, nickname, email, picture, password, fechaNacimiento, direccion, telefono } = req.body
+    
+    const newUser = await User.create({
+        name, 
+        nickname, 
+        email, 
+        picture, 
+        password, 
+        fechaNacimiento, 
+        direccion, 
+        telefono 
+    });
+    console.log(Object.keys(newUser))
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error('Error al crear un nuevo usuario:', error);
+    res.status(500).json({ error: 'Error al crear un nuevo usuario' });
   }
+}
 
-  module.exports = { getAllUsers, getUser , actualizarIsBan, actualizarRol,actualizarUsuario};
+async function actualizarUser(req, res) {
+  const {id} = req.params;
+  const { email, nombre, nickname, direccion, telefono, fechaNacimiento } = req.body
+  const updates = req.body;
+  try{
+    const user = await User.findByIdAndUpdate(id, updates, {new: true});
+    if(!user){
+      return res.status(404).json({ message: "User no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ nessage: "Error al actualizar el User", error: error.message});
+  }
+}
+
+// async function actualizarUsuario(req, res) {
+//   const { id } = req.params;
+//   const { email, nombre, nickname, direccion, telefono, fechaNacimiento } = req.body
+//   try {
+//     const usuario = await User.findByPk(id) 
+//     if (!usuario) {
+//       return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+//     usuario.nombre = nombre || usuario.nombre;
+//     usuario.direccion = direccion || usuario.direccion;
+//     usuario.telefono = telefono || usuario.telefono;
+//     usuario.fechaNacimiento = fechaNacimiento || usuario.fechaNacimient
+//     await usuario.save();
+//     res.json(usuario);
+//     }
+//   } catch (error) {
+//     console.error('Error al actualizar el usuario:', error);
+//     res.status(500).json({ mensaje: 'Error del servidor' });
+//     }
+//   }
+
+  module.exports = { getUsers, obtenerUserPorId , crearUser, actualizarUser};
