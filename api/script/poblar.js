@@ -67,16 +67,16 @@ const populateDatabase = async () => {
 
     ];
 
-     for (const producto of productos) {
-      const existingProduct = await Product.findOne({
-        where: { nombreproducto: producto.nombreproducto },
-      });
+    //  for (const producto of productos) {
+    //   const existingProduct = await Product.findOne({
+    //     where: { nombreproducto: producto.nombreproducto },
+    //   });
 
-      if (!existingProduct) {
-        // Si el producto no existe en la base de datos, se crea
-        await Product.create(producto);
-      }
-    }
+    //   if (!existingProduct) {
+    //     // Si el producto no existe en la base de datos, se crea
+    //     await Product.create(producto);
+    //   }
+    // }
 
     console.log('Base de datos poblada con productos');
   } catch (error) {
