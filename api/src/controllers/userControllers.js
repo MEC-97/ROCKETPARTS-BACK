@@ -72,7 +72,7 @@ async function actualizarUser(req, res) {
 //     usuario.telefono = telefono || usuario.telefono;
 //     usuario.fechaNacimiento = fechaNacimiento || usuario.fechaNacimient
 //     await usuario.save();
-//     res.json(usuario);
+//     res.json(usuario); 
 //     }
 //   } catch (error) {
 //     console.error('Error al actualizar el usuario:', error);
