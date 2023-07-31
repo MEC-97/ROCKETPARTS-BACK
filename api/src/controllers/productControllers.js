@@ -73,7 +73,7 @@ const crearProducto = async (req, res) => {
 
 const buscarProductos = async (req, res) => {
   try {
-    const { prod, cate, page, limit, minPrice, maxPrice, disp } = req.query;
+    const { prod, cate, page, limit, minPrice, maxPrice } = req.query;
     const pageNumber = parseInt(page) || 1;
     const pageSize = parseInt(limit) || 10;
     const offset = (pageNumber - 1) * pageSize;
@@ -94,11 +94,6 @@ const buscarProductos = async (req, res) => {
     }
     if (maxPrice) {
       arrayCondiciones.push({ precioproducto: { [Op.lte]: parseFloat(maxPrice) } });
-    }
-    if (disp) {
-      if (!isNaN(disp)) { // Verificar si disp es un número
-        arrayCondiciones.push({ disponibproducto: parseInt(disp) }); // Convertir disp a número y buscar coincidencias exactas
-      }
     }
 
     const { count, rows } = await Product.findAndCountAll({
@@ -155,7 +150,36 @@ const buscarProductos = async (req, res) => {
 };
 
 
+const getProductsAvailable = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        disponibproducto: true,
+      },
+    });
+    res.json(products);
+  } catch (error) {
+    console.error('Error al obtener los productos disponibles:', error);
+    res.status(500).json({ error: 'Error al obtener los productos disponibles' });
+  }
+};
+
+const getProductsUnavailable = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        disponibproducto: false,
+      },
+    });
+    res.json(products);
+  } catch (error) {
+    console.error('Error al obtener los productos no disponibles:', error);
+    res.status(500).json({ error: 'Error al obtener los productos no disponibles' });
+  }
+};
 
 
 
-module.exports = {getProducts, obtenerProductoPorId, crearProducto, buscarProductos}
+
+
+module.exports = {getProducts, obtenerProductoPorId, crearProducto, buscarProductos, getProductsAvailable, getProductsUnavailable}
