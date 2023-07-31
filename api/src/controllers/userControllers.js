@@ -9,22 +9,18 @@ const getUsers = async (req, res) => {
     } 
 };
 
-
 const obtenerUserPorId = async (req, res) => {
-  const { id } = req.params;
-
+  const id = req.params.id;
   try{
-    const respuesta = await User.findByPk(id)
-    if(!respuesta){
-        return res.status(404).json({mensaje: "Usuario no encontrado"});
-    }
-    const { name, nickname, email, picture, password, fechaNacimiento, direccion, telefono} = usuario
-    const usuario = { id, name, nickname, email, picture, password, fechaNacimiento, direccion, telefono}
-    res.json(usuario);
-    console.log(JSON.stringify(respuesta))
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({mensaje: "Error al obtener el usuario"})
+      const user = await User.findByPk(id);
+      if (user) {
+          res.json(user);
+      } 
+      else{
+          res.status(404).json({error: "User not found"})
+      }
+  }catch(error){
+      res.status(500).json({ message: error.message });
   }
 }
 
@@ -50,6 +46,20 @@ const crearUser = async (req, res) => {
   }
 }
 
+async function actualizarUser(req, res) {
+  const {id} = req.params;
+  const { email, nombre, nickname, direccion, telefono, fechaNacimiento } = req.body
+  const updates = req.body;
+  try{
+    const user = await User.findByIdAndUpdate(id, updates, {new: true});
+    if(!user){
+      return res.status(404).json({ message: "User no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ nessage: "Error al actualizar el User", error: error.message});
+  }
+}
+
 // async function actualizarUsuario(req, res) {
 //   const { id } = req.params;
 //   const { email, nombre, nickname, direccion, telefono, fechaNacimiento } = req.body
@@ -70,4 +80,4 @@ const crearUser = async (req, res) => {
 //     }
 //   }
 
-  module.exports = { getUsers, obtenerUserPorId , crearUser};
+  module.exports = { getUsers, obtenerUserPorId , crearUser, actualizarUser};
