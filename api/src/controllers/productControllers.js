@@ -73,7 +73,7 @@ const crearProducto = async (req, res) => {
 
 const buscarProductos = async (req, res) => {
   try {
-    const { prod, cate, page, limit, minPrice, maxPrice } = req.query;
+    const { prod, cate, marca, page, limit, minPrice, maxPrice } = req.query;
     const pageNumber = parseInt(page) || 1;
     const pageSize = parseInt(limit) || 10;
     const offset = (pageNumber - 1) * pageSize;
@@ -88,6 +88,9 @@ const buscarProductos = async (req, res) => {
     }
     if (cate) {
       condicionCat = { categoria: { [Op.iLike]: `%${cate}%` } };
+    }
+    if (marca) {
+      arrayCondiciones.push({ marca: { [Op.iLike]: `%${marca}%` } });
     }
     if (minPrice) {
       arrayCondiciones.push({ precioproducto: { [Op.gte]: parseFloat(minPrice) } });
@@ -120,6 +123,7 @@ const buscarProductos = async (req, res) => {
         precioproducto,
         disponibproducto,
         categoria,
+        marca,
         calificacionproducto,
       } = producto;
 
@@ -132,6 +136,7 @@ const buscarProductos = async (req, res) => {
         precioproducto,
         disponibproducto,
         categoria,
+        marca,
         calificacionproducto,
       };
     });
@@ -150,31 +155,35 @@ const buscarProductos = async (req, res) => {
 };
 
 
-const getProductsAvailable = async (req, res) => {
+const getProductsAvailable = async () => {
   try {
     const products = await Product.findAll({
       where: {
-        disponibproducto: true,
+        disponibproducto: {
+          [Op.gt]: 0, // Utilizamos el operador [Op.gt] para obtener los productos con disponibproducto mayor a 0.
+        },
       },
     });
-    res.json(products);
+    return products;
   } catch (error) {
     console.error('Error al obtener los productos disponibles:', error);
-    res.status(500).json({ error: 'Error al obtener los productos disponibles' });
+    throw error;
   }
 };
 
-const getProductsUnavailable = async (req, res) => {
+const getProductsUnavailable = async () => {
   try {
     const products = await Product.findAll({
       where: {
-        disponibproducto: false,
+        disponibproducto: {
+          [Op.eq]: 0, // Utilizamos el operador [Op.eq] para obtener los productos con disponibproducto igual a 0.
+        },
       },
     });
-    res.json(products);
+    return products;
   } catch (error) {
     console.error('Error al obtener los productos no disponibles:', error);
-    res.status(500).json({ error: 'Error al obtener los productos no disponibles' });
+    throw error;
   }
 };
 
