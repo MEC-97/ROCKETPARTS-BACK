@@ -155,38 +155,33 @@ const buscarProductos = async (req, res) => {
 };
 
 
-const getProductsAvailable = async () => {
+const getProductsAvailable = async (req, res) => {
   try {
     const products = await Product.findAll({
       where: {
-        disponibproducto: {
-          [Op.gt]: 0, // Utilizamos el operador [Op.gt] para obtener los productos con disponibproducto mayor a 0.
-        },
+        dispoboleano: true,
       },
     });
-    return products;
+    res.json(products);
   } catch (error) {
     console.error('Error al obtener los productos disponibles:', error);
-    throw error;
+    res.status(500).json({ error: 'Error al obtener los productos disponibles' });
   }
 };
 
-const getProductsUnavailable = async () => {
+const getProductsUnavailable = async (req, res) => {
   try {
     const products = await Product.findAll({
       where: {
-        disponibproducto: {
-          [Op.eq]: 0, // Utilizamos el operador [Op.eq] para obtener los productos con disponibproducto igual a 0.
-        },
+        dispoboleano: false,
       },
     });
-    return products;
+    res.json(products);
   } catch (error) {
     console.error('Error al obtener los productos no disponibles:', error);
-    throw error;
+    res.status(500).json({ error: 'Error al obtener los productos no disponibles' });
   }
 };
-
 
 
 

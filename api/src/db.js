@@ -70,15 +70,15 @@ Detalleoc.belongsTo(Oc, {
   foreignKey: 'idoc',
 });
     
-//Sincroniza los modelos con la base de datos y establece las relaciones
-sequelize.sync({ force: false })
-  .then(() => {
-    console.log('Tablas sincronizadas correctamente');
-    //initializeRelations();
-    // Aquí puedes continuar con el resto de tu lógica de la aplicación
-  })
-  .catch(error => {
-    console.error('Error al sincronizar las tablas:', error);
-  });
+// //Sincroniza los modelos con la base de datos y establece las relaciones
+// sequelize.sync({ force: false })
+//   .then(() => {
+//     console.log('Tablas sincronizadas correctamente');
+//     //initializeRelations();
+//     // Aquí puedes continuar con el resto de tu lógica de la aplicación
+//   })
+//   .catch(error => {
+//     console.error('Error al sincronizar las tablas:', error);
+//   });
 
 module.exports = {...sequelize.models, conn: sequelize, sequelize};

@@ -22,6 +22,7 @@ const populateDatabase = async () => {
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/video-geforce-rtx-3070-8gb-gigabyte-gaming-oc-lhr-0.jpg",
         precioproducto: 1000,
         disponibproducto: 0,
+        dispoboleano: false,
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Placas de video",
@@ -33,6 +34,7 @@ const populateDatabase = async () => {
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/18/monitor-19-philips-193v5lhsb255-led-hd-60hz-vga-hdmi-0.jpg",
         precioproducto: 10,
         disponibproducto: 23,
+        dispoboleano: true,
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Monitores",
@@ -45,7 +47,7 @@ const populateDatabase = async () => {
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/video-geforce-rtx-3070-8gb-gigabyte-gaming-oc-lhr-0.jpg",
         precioproducto: 10,
         disponibproducto: 1,
-        
+        dispobolean: false,
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Placas de video"
@@ -57,7 +59,7 @@ const populateDatabase = async () => {
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/18/monitor-19-philips-193v5lhsb255-led-hd-60hz-vga-hdmi-0.jpg",
         precioproducto: 10,
         disponibproducto: 3,
-        
+        dispobolean: true,
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Monitores"

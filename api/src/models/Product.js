@@ -27,6 +27,10 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER, 
         allowNull: true 
       },
+      dispoboleano: { 
+        type: DataTypes.BOOLEAN, 
+        allowNull: true 
+      },
       borrador: { 
         type: DataTypes.BOOLEAN, 
         allowNull: true, 
