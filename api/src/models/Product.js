@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
         allowNull: true 
       },
       disponibproducto: { 
-        type: DataTypes.INTEGER, 
+        type: DataTypes.BOOLEAN, 
         allowNull: true 
       },
       borrador: { 
