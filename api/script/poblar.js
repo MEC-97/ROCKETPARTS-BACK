@@ -21,21 +21,24 @@ const populateDatabase = async () => {
         descproducto: 'Multiprocesadores NVIDIA Ampere Streaming , Núcleos RT de segunda generación,Núcleos de tensor de tercera generación,Desarrollado por GeForce RTX ™ 3070, Integrado con interfaz de memoria GDDR6 de 256 bits de 8 GB',
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/video-geforce-rtx-3070-8gb-gigabyte-gaming-oc-lhr-0.jpg",
         precioproducto: 1000,
-        disponibproducto: false,
-        
+        disponibproducto: 0,
+        dispoboleano: false,
         borrador: false,
         calificacionproducto: [4, 5, 3],
-        categoria: "Placas de video"
+        categoria: "Placas de video",
+        marca: "GEFORCE",
       },
       {
         nombreproducto: 'MONITOR 19" PHILIPS 193V5LHSB2/55 LED HD 60HZ VGA HDMI',
         descproducto: 'LCD TFT, Sistema W-LED, 18,5 pulg / 47 cm, Resolución óptima: 1366 x 768 a 60 Hz',
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/18/monitor-19-philips-193v5lhsb255-led-hd-60hz-vga-hdmi-0.jpg",
         precioproducto: 10,
-        disponibproducto: true,
+        disponibproducto: 23,
+        dispoboleano: true,
         borrador: false,
         calificacionproducto: [4, 5, 3],
-        categoria: "Monitores"
+        categoria: "Monitores",
+        marca: "PHILIPS",
       },
       {
         nombreproducto: 'VIDEO GEFORCE RTX 3070 8GB GIGABYTE GAMING OC LHR',
@@ -43,8 +46,8 @@ const populateDatabase = async () => {
         
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/Pics_Prod/video-geforce-rtx-3070-8gb-gigabyte-gaming-oc-lhr-0.jpg",
         precioproducto: 10,
-        disponibproducto: false,
-        
+        disponibproducto: 1,
+        dispobolean: false,
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Placas de video"
@@ -55,8 +58,8 @@ const populateDatabase = async () => {
         
         fotoprinc: "https://www.fullh4rd.com.ar/img/productos/18/monitor-19-philips-193v5lhsb255-led-hd-60hz-vga-hdmi-0.jpg",
         precioproducto: 10,
-        disponibproducto: true,
-        
+        disponibproducto: 3,
+        dispobolean: true,
         borrador: false,
         calificacionproducto: [4, 5, 3],
         categoria: "Monitores"

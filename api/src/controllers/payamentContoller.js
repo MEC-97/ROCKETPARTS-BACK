@@ -7,7 +7,9 @@ mercadopago.configure({
 });
 
 // Function to create payment preference
-const createPaymentPreference = (description, price, quantity) => {
+const createPaymentPreference =  (req,res) => {
+  const { description, price, quantity } = req.body;
+   
   return new Promise((resolve, reject) => {
     let preference = {
       items: [
@@ -15,7 +17,7 @@ const createPaymentPreference = (description, price, quantity) => {
           title: description,
           unit_price: Number(price),
           quantity: Number(quantity),
-        },
+        }, 
       ],
       back_urls: {
         success: "http://localhost:3000/Tienda",
@@ -27,12 +29,12 @@ const createPaymentPreference = (description, price, quantity) => {
 
     mercadopago.preferences.create(preference)
       .then(function (response) {
-        resolve(response.body.id);
+        res.json(response.body);
       })
       .catch(function (error) {
         reject(error);
       });
   });
-};
+ };
 
 module.exports = { createPaymentPreference };
