@@ -9,6 +9,23 @@ const getUsers = async (req, res) => {
     } 
 };
 
+//prueba para obtener por sub
+const obtenerUserPorSub = async (req, res) => {
+  const sub = req.user.sub;
+  try {
+    const user = await User.findOne({ where: { sub }});
+    if (user){
+      res.json(user);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error){
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//
+
 const obtenerUserPorId = async (req, res) => {
   const id = req.params.id;
   try{
@@ -38,7 +55,8 @@ const crearUser = async (req, res) => {
         direccion, 
         telefono 
     });
-    console.log(Object.keys(newUser))
+    
+    console.log("User creado y metido al LocalStorage")
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error al crear un nuevo usuario:', error);
@@ -80,4 +98,4 @@ async function actualizarUser(req, res) {
 //     }
 //   }
 
-  module.exports = { getUsers, obtenerUserPorId , crearUser, actualizarUser};
+  module.exports = { getUsers, obtenerUserPorId, obtenerUserPorSub, crearUser, actualizarUser};
