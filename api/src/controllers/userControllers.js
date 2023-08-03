@@ -1,4 +1,20 @@
+const {ManagementClient} = require ("auth0")
 const { User } = require('../db.js');
+
+const auth00 = new ManagementClient({
+  domain: "dev-jzsyp78gzn6fdoo4.us.auth0.com",
+  clientId: "bZrOYlhECm7soRu6DG6b8Dqf2pOecaoZ",
+  clientSecret: "P_8ofgCKtq5v3vIXPfYd2v0Ado7lt5fQhC6egfI83hVQXm7_4aOGp-bIvjZaDgGo",
+  scope: "read:users"
+})
+
+getAllUsers = async () => {
+  try {
+    return await auth00
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 const getUsers = async (req, res) => {
     try {
@@ -8,6 +24,7 @@ const getUsers = async (req, res) => {
         res.status(500).json({ message: error.message });
     } 
 };
+
 
 //prueba para obtener por sub
 const obtenerUserPorSub = async (req, res) => {
@@ -55,8 +72,8 @@ const crearUser = async (req, res) => {
         direccion, 
         telefono 
     });
-    
-    console.log("User creado y metido al LocalStorage")
+
+    console.log("User creado")
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error al crear un nuevo usuario:', error);
@@ -98,4 +115,4 @@ async function actualizarUser(req, res) {
 //     }
 //   }
 
-  module.exports = { getUsers, obtenerUserPorId, obtenerUserPorSub, crearUser, actualizarUser};
+  module.exports = { getUsers, getUsersAuth0, obtenerUserPorId, obtenerUserPorSub, crearUser, actualizarUser};
