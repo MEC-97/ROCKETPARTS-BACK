@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {getProducts, obtenerProductoPorId, crearProducto, buscarProductos } = require("../controllers/productControllers")
+const {getProducts, obtenerProductoPorId, crearProducto, buscarProductos, getProductsAvailable, getProductsUnavailable } = require("../controllers/productControllers")
 const {getUsers, obtenerUserPorId, obtenerUserPorSub, crearUser, actualizarUser} = require("../controllers/userControllers")
-const { getOrders, obtenerOrderPorId } = require("../controllers/orderControllers")
-
 
 router.get("/users" , getUsers)
 router.get("/users/:id" , obtenerUserPorSub)
@@ -15,10 +13,10 @@ router.get("/products" , getProducts)
 router.get("/products/:id" , obtenerProductoPorId)
 router.post("/products", crearProducto)
 router.get("/buscarProductos" , buscarProductos)
+router.get("/disponible", getProductsAvailable)
+router.get("/nodisponible", getProductsUnavailable)
 
-router.get("/orders" , getOrders)
-router.get("/orders/:id" , obtenerOrderPorId)
- 
+router.post('/create-order', createPaymentPreference);
 
 module.exports = router;
  

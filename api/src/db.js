@@ -2,20 +2,46 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { 
-  DB_USER, DB_HOST,DB_NAME,DB_PASSWORD 
-} = process.env;
+const { DB_USER, DB_HOST,DB_NAME,DB_PASSWORD } = process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-    // dialect: 'postgres'
   }
 );
- const basename = path.basename(__filename);
 
+// let sequelize =
+//   process.env.NODE_ENV === "production"
+//     ? new Sequelize({
+//       database: DB_NAME,
+//       dialect: "postgres",
+//       host: DB_HOST,
+//       port: DB_PORT,
+//       username: DB_USER,
+      
+//       pool: {
+//         max: 3,
+//         min: 1,
+//         idle: 10000,
+//       },
+//       dialectOptions: {
+//         ssl: {
+//           require: true,
+//           // Ref.: https://github.com/brianc/node-postgres/issues/2009
+//           rejectUnauthorized: false,
+//         },
+//         keepAlive: true,
+//       },
+//       ssl: true,
+//     })
+//     : new Sequelize(
+      
+//       { logging: false, native: false }
+//     );
+
+ const basename = path.basename(__filename);
  const modelDefiners = [];
 
 fs.readdirSync(path.join(__dirname, '/models'))
@@ -31,13 +57,28 @@ fs.readdirSync(path.join(__dirname, '/models'))
   
   //Define las relaciones entre los modelos
   sequelize.models = Object.fromEntries(capsEntries);
-  const { User, Product } = sequelize.models;
+  
+    const {  User, Product ,Oc,Detalleoc } = sequelize.models;
   
   User.belongsToMany(Product, { through: 'user_product' })
   Product.belongsToMany(User, {through: 'user_product'})
   
+Oc.hasMany(Detalleoc, {
+  foreignKey: 'idoc',
+});
+Detalleoc.belongsTo(Oc, {
+  foreignKey: 'idoc',
+});
+    
+// //Sincroniza los modelos con la base de datos y establece las relaciones
+// sequelize.sync({ force: false })
+//   .then(() => {
+//     console.log('Tablas sincronizadas correctamente');
+//     //initializeRelations();
+//     // Aquí puedes continuar con el resto de tu lógica de la aplicación
+//   })
+//   .catch(error => {
+//     console.error('Error al sincronizar las tablas:', error);
+//   });
 
-module.exports = {
-  ...sequelize.models, 
-  conn: sequelize, 
-};
+module.exports = {...sequelize.models, conn: sequelize, sequelize};
