@@ -52,9 +52,7 @@ module.exports = (sequelize) => {
     },
   });
   
-  User.associate = (models) => {
-    User.hasMany(models.Oc, { foreignKey: 'iduser', as: 'ordenes' });
-  };
+
 
   return User;
 };

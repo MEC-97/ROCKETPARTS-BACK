@@ -9,13 +9,17 @@ module.exports = (sequelize) => {
             unique: true,
             primaryKey: true,
         },
+        descripcion: {
+            type: DataTypes.STRING,
+            
+        },
         quantity: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+           
         },
         totalPrice: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
+            type: DataTypes.INTEGER,
+            
         },
     })
 }

@@ -58,17 +58,20 @@ fs.readdirSync(path.join(__dirname, '/models'))
   //Define las relaciones entre los modelos
   sequelize.models = Object.fromEntries(capsEntries);
   
-    const {  User, Product ,Oc,Detalleoc } = sequelize.models;
+    const {  User, Product, Order } = sequelize.models;
   
   User.belongsToMany(Product, { through: 'user_product' })
   Product.belongsToMany(User, {through: 'user_product'})
+
+  User.hasMany(Order, { foreignKey: 'userId', as: 'orders' });
+Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
   
-Oc.hasMany(Detalleoc, {
-  foreignKey: 'idoc',
-});
-Detalleoc.belongsTo(Oc, {
-  foreignKey: 'idoc',
-});
+// Oc.hasMany(Detalleoc, {
+//   foreignKey: 'idoc',
+// });
+// Detalleoc.belongsTo(Oc, {
+//   foreignKey: 'idoc',
+// });
     
 // //Sincroniza los modelos con la base de datos y establece las relaciones
 // sequelize.sync({ force: false })
