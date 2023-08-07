@@ -3,19 +3,17 @@ const mercadopago = require('mercadopago');
 require('dotenv').config();
 const { GOOGLE_TOKEN } = process.env;
 
+// ...
 
-// Configure Mercado Pago access token
-mercadopago.configure({
-  access_token: 'TEST-4280842424471491-070211-516c8b20e0878a4ffcd8b1635fd20deb-1409292019', 
-});
-
-// Function to create payment preference
 const createPaymentPreference = async (req, res) => {
-  const { description, price, quantity } = req.body;
+  const { description, price, quantity, userId } = req.body; // Asegúrate de enviar el userId en la solicitud
 
   try {
-    
-   
+    const user = await User.findByPk(userId); // Busca el usuario por el userId
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     await new Promise((resolve, reject) => {
       let preference = {
@@ -27,10 +25,10 @@ const createPaymentPreference = async (req, res) => {
           },
         ],
         payer: {
-          email: "test_user_200519321@testuser.com",
+          email: "test_user_200519321@testuser.com"
         },
         notification_url: "https://3e89-191-82-10-221.ngrok.io/webhook",
-        external_reference: "mcornejo375@gmail.com", // Set external_reference to the user's email
+        external_reference: user.email, // Utiliza el email del usuario como el valor de external_reference
         back_urls: {
           success: "http://localhost:3000/success",
           failure: "http://localhost:3000",

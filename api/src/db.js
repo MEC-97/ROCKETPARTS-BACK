@@ -50,7 +50,7 @@ fs.readdirSync(path.join(__dirname, '/models'))
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
-  modelDefiners.forEach(model => model(sequelize));
+ modelDefiners.forEach(model => model(sequelize));
 
   let entries = Object.entries(sequelize.models);
   let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
@@ -58,13 +58,16 @@ fs.readdirSync(path.join(__dirname, '/models'))
   //Define las relaciones entre los modelos
   sequelize.models = Object.fromEntries(capsEntries);
   
-    const {  User, Product, Order } = sequelize.models;
+    const {  User, Product, Order, Review } = sequelize.models;
   
   User.belongsToMany(Product, { through: 'user_product' })
   Product.belongsToMany(User, {through: 'user_product'})
 
   User.hasMany(Order, { foreignKey: 'userId', as: 'orders' });
 Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+Product.hasMany(Review, { foreignKey: 'productId', as: 'reviews' });
+Review.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
   
 // Oc.hasMany(Detalleoc, {
 //   foreignKey: 'idoc',
