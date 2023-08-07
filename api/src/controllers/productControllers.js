@@ -3,22 +3,12 @@ const { Op } = require('sequelize');
 //const db = require('./db');
 
 async function getProducts(req, res) {
-  const { page, limit } = req.query;
-  const pageNumber = parseInt(page) || 1;
-  const pageSize = parseInt(limit) || 10;
-  const offset = (pageNumber - 1) * pageSize;
   try {
-    const { count, rows } = await Product.findAndCountAll({
-      offset,
-      limit: pageSize,
-    });
-    const totalPages = Math.ceil(count / pageSize);
+    const products = await Product.findAll();
+    const totalProductos = products.length;
     res.json({
-      totalProductos: count,
-      totalPages,
-      currentPage: pageNumber,
-      pageSize,
-      productos: rows,
+      totalProductos,
+      productos: products,
     });
   } catch (error) {
     console.error(error.message);
@@ -77,10 +67,6 @@ const crearProducto = async (req, res) => {
   try {
     const { id, nombreproducto,descproducto, fotoprinc, precioproducto, disponibproducto, dispoboleano, borrador, calificacionproducto, categoria, marca } = req.body;
 
-    
-    if (!nombreproducto || !descproducto || !fotoprinc || !precioproducto || disponibproducto === undefined || dispoboleano === undefined || borrador === undefined || !calificacionproducto || !categoria || !marca) {
-      return res.status(400).json({ error: 'Faltan datos' });
-    }
 
     if (precioproducto <= 0) {
       return res.status(400).json({ error: 'precioproducto debe ser mayor a 0.' });

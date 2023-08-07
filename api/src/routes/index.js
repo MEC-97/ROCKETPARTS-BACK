@@ -4,6 +4,7 @@ const {getProducts, obtenerProductoPorId, crearProducto, buscarProductos, getPro
 const {getUsers, obtenerUserPorId, crearUser, actualizarUser} = require("../controllers/userControllers")
 const { createPaymentPreference, receiveWebhook, sendMail } = require("../controllers/payamentContoller");
 const { getOrder } = require('../controllers/orderController');
+const { getReviews, createReview } = require('../controllers/reviewController');
 
 
 router.get("/users" , getUsers)
@@ -25,5 +26,9 @@ router.post("/webhook", receiveWebhook);
 router.get("/success", sendMail);
 
 router.get("/ordenes" , getOrder)
+
+router.get("/calificacion" , getReviews)
+router.post("/calificacion" , createReview)
+
 module.exports = router;
  
