@@ -1,19 +1,22 @@
 const { User, Order } = require('../db.js');
 const mercadopago = require('mercadopago');
 require('dotenv').config();
-const { GOOGLE_TOKEN } = process.env;
+const { GOOGLE_TOKEN, CLIENTID, CLIENT_SECRET } = process.env;
 
-// ...
+mercadopago.configure({
+  client_id: CLIENTID,
+  client_secret: CLIENT_SECRET,
+});
 
 const createPaymentPreference = async (req, res) => {
-  const { description, price, quantity, userId } = req.body; // Asegúrate de enviar el userId en la solicitud
+  const { description, price, quantity } = req.body; // Asegúrate de enviar el userId en la solicitud
 
   try {
-    const user = await User.findByPk(userId); // Busca el usuario por el userId
+    //const user = await User.findByPk(userId); // Busca el usuario por el userId
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+    // if (!user) {
+    //   return res.status(404).json({ message: 'User not found' });
+    // }
 
     await new Promise((resolve, reject) => {
       let preference = {
@@ -27,10 +30,10 @@ const createPaymentPreference = async (req, res) => {
         payer: {
           email: "test_user_200519321@testuser.com"
         },
-        notification_url: "https://3e89-191-82-10-221.ngrok.io/webhook",
-        external_reference: user.email, // Utiliza el email del usuario como el valor de external_reference
+        notification_url: "https://b121-191-82-50-102.ngrok.io/webhook",
+        external_reference: "mcornejo375@gmail.com", // Utiliza el email del usuario como el valor de external_reference
         back_urls: {
-          success: "http://localhost:3000/success",
+          success: "http://localhost:3000/Success",
           failure: "http://localhost:3000",
           pending: "",
         },

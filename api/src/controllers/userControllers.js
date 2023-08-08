@@ -1,4 +1,21 @@
 const { User } = require('../db.js');
+const {  ManagementClient } = require ("auth0")
+require('dotenv').config();
+
+const auth00 = new ManagementClient({
+  domain: "dev-jzsyp78gzn6fdoo4.us.auth0.com",
+  clientId: "bZrOYlhECm7soRu6DG6b8Dqf2pOecaoZ",
+  clientSecret: process.env.AUTH0_CLIENT_SECRET, 
+  scope: "read:users"
+})
+
+const getAllUsers = async () => {
+  try{
+    return await auth00.users.getAll();
+  } catch (error) {
+    throw new Error(message)
+  }
+}
 
 const getUsers = async (req, res) => {
     try {
@@ -8,6 +25,23 @@ const getUsers = async (req, res) => {
         res.status(500).json({ message: error.message });
     } 
 };
+
+//prueba para obtener por sub
+const obtenerUserPorSub = async (req, res) => {
+  const sub = req.user.sub;
+  try {
+    const user = await User.findOne({ where: { sub }});
+    if (user){
+      res.json(user);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error){
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//
 
 const obtenerUserPorId = async (req, res) => {
   const id = req.params.id;
@@ -38,7 +72,12 @@ const crearUser = async (req, res) => {
         direccion, 
         telefono 
     });
-    console.log(Object.keys(newUser))
+    
+    const newUserObject = newUser.toObject();
+    const newUserJSON = JSON.stringify(newUserObject);
+
+    localStorage.setItem("userData", newUserJSON);
+    console.log("User creado y metido al LocalStorage")
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error al crear un nuevo usuario:', error);
@@ -80,4 +119,4 @@ async function actualizarUser(req, res) {
 //     }
 //   }
 
-  module.exports = { getUsers, obtenerUserPorId , crearUser, actualizarUser};
+  module.exports = { getUsers, getAllUsers, obtenerUserPorId, obtenerUserPorSub, crearUser, actualizarUser};
