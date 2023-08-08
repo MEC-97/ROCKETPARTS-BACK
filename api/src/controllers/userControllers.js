@@ -1,10 +1,11 @@
 const { User } = require('../db.js');
 const {  ManagementClient } = require ("auth0")
+require('dotenv').config();
 
 const auth00 = new ManagementClient({
   domain: "dev-jzsyp78gzn6fdoo4.us.auth0.com",
   clientId: "bZrOYlhECm7soRu6DG6b8Dqf2pOecaoZ",
-  clientSecret: "P_8ofgCKtq5v3vIXPfYd2v0Ado7lt5fQhC6egfI83hVQXm7_4aOGp-bIvjZaDgGo",
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
   scope: "read:users"
 })
 
@@ -72,6 +73,10 @@ const crearUser = async (req, res) => {
         telefono 
     });
     
+    const newUserObject = newUser.toObject();
+    const newUserJSON = JSON.stringify(newUserObject);
+
+    localStorage.setItem("userData", newUserJSON);
     console.log("User creado y metido al LocalStorage")
     res.status(201).json(newUser);
   } catch (error) {
