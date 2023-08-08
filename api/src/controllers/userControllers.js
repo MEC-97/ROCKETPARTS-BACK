@@ -5,7 +5,7 @@ require('dotenv').config();
 const auth00 = new ManagementClient({
   domain: "dev-jzsyp78gzn6fdoo4.us.auth0.com",
   clientId: "bZrOYlhECm7soRu6DG6b8Dqf2pOecaoZ",
-  // clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET, 
   scope: "read:users"
 })
 
