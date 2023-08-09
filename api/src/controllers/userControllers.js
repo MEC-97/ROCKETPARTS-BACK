@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const auth00 = new ManagementClient({
   domain: "dev-jzsyp78gzn6fdoo4.us.auth0.com",
-  clientId: "bZrOYlhECm7soRu6DG6b8Dqf2pOecaoZ",
+  clientId: "YWoSSAS6qZS9Wf65XTiwUgF9V4EnJP4h",
   clientSecret: process.env.AUTH0_CLIENT_SECRET, 
   scope: "read:users"
 })
@@ -62,6 +62,12 @@ const crearUser = async (req, res) => {
   try{
     const { name, nickname, email, picture, password, fechaNacimiento, direccion, telefono } = req.body
     
+    const existingUser = await User.findOne({ where: { sub } });
+
+    if (existingUser) {
+      return res.status(409).json({ error: "User already exists" });
+    }
+
     const newUser = await User.create({
         name, 
         nickname, 
@@ -70,14 +76,11 @@ const crearUser = async (req, res) => {
         password, 
         fechaNacimiento, 
         direccion, 
-        telefono 
-    });
-    
-    const newUserObject = newUser.toObject();
-    const newUserJSON = JSON.stringify(newUserObject);
-
-    localStorage.setItem("userData", newUserJSON);
-    console.log("User creado y metido al LocalStorage")
+        telefono ,
+        sub,
+    });      
+       
+    console.log("User creado", newUser)
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Error al crear un nuevo usuario:', error);
