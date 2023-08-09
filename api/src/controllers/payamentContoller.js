@@ -30,7 +30,7 @@ const createPaymentPreference = async (req, res) => {
         payer: {
           email: "test_user_200519321@testuser.com"
         },
-        notification_url: "https://b121-191-82-50-102.ngrok.io/webhook",
+        notification_url: "https://eb5d-191-82-50-102.ngrok.io/webhook",
         external_reference: "mcornejo375@gmail.com", // Utiliza el email del usuario como el valor de external_reference
         back_urls: {
           success: "http://localhost:3000/Success",
@@ -113,7 +113,7 @@ const sendMail = async (req, res) => {
 
       const mailOptions = {
         from: 'rocketparts8@gmail.com',
-        to: correoUsuario,
+        to: "mcornejo375@gmail.com",
         subject: '¡Recibo de Compra!',
         html : htmlContent,
       };
