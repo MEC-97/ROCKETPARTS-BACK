@@ -3,10 +3,10 @@ const mercadopago = require('mercadopago');
 require('dotenv').config();
 const { GOOGLE_TOKEN, CLIENTID, CLIENT_SECRET } = process.env;
 
-mercadopago.configure({
-  client_id: CLIENTID,
-  client_secret: CLIENT_SECRET,
-});
+// mercadopago.configure({
+//   client_id: CLIENTID,
+//   client_secret: CLIENT_SECRET,
+// });
 
 const createPaymentPreference = async (req, res) => {
   const { description, price, quantity } = req.body; // Asegúrate de enviar el userId en la solicitud
