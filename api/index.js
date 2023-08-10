@@ -13,4 +13,4 @@ conn.sync({ force: false }).then(() => {
     console.log(`Server is listening on port ${PORT}`);
   });
   
-});   
+});    
