@@ -32,7 +32,7 @@ const createPaymentPreference = async (req, res) => {
           email: "test_user_200519321@testuser.com"
         },
         notification_url: "https://rocketparts-back-production.up.railway.app/webhook",
-       // external_reference: user.dataValues.toString(email), // Convertir el correo electrónico a una cadena
+        external_reference: user.dataValues.toString(email), // Convertir el correo electrónico a una cadena
     // Asignar el correo electrónico del usuario
         back_urls: {
           success: "http://localhost:3000/Success" ,  //"https://rocketparts-frontt-ohfz.vercel.app/Success",
