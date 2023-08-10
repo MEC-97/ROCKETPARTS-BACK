@@ -34,8 +34,8 @@ const createPaymentPreference = async (req, res) => {
        // external_reference: usuario.toString() , // Convertir el correo electrónico a una cadena
     // Asignar el correo electrónico del usuario
         back_urls: {
-          success: "http://localhost:3000/Success" ,  //"https://rocketparts-frontt-ohfz.vercel.app/Success",
-          failure: "http://localhost:3000",           //"https://rocketparts-frontt-ohfz.vercel.app",
+          success: "https://rocketparts-frontt-ohfz.vercel.app/Success",
+          failure: "https://rocketparts-frontt-ohfz.vercel.app",
           pending: "",
         },
         auto_return: "approved",
