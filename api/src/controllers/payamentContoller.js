@@ -13,7 +13,7 @@ const createPaymentPreference = async (req, res) => {
   const { description, price, quantity, usuario } = req.body;
   console.log(usuario)
   
-  
+   
   try {
    const user = await User.findOne({ where: { sub: usuario } });
   //console.log(user.dataValues.email)
