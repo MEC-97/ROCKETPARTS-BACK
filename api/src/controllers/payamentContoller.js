@@ -11,10 +11,12 @@ mercadopago.configure({
 
 const createPaymentPreference = async (req, res) => {
   const { description, price, quantity, usuario } = req.body;
-  console.log(usuario)
   
    
   try {
+   //const user = await User.findOne({ where: { sub: usuario } });
+  //console.log(user.dataValues.email)
+  
     await new Promise((resolve, reject) => {
       
       let preference = {
@@ -29,7 +31,7 @@ const createPaymentPreference = async (req, res) => {
           email: "test_user_200519321@testuser.com"
         },
         notification_url: "https://rocketparts-back-production.up.railway.app/webhook",
-        external_reference: usuario, // Convertir el correo electrónico a una cadena
+        external_reference: usuario , // Convertir el correo electrónico a una cadena
     // Asignar el correo electrónico del usuario
         back_urls: {
           success: "http://localhost:3000/Success" ,  //"https://rocketparts-frontt-ohfz.vercel.app/Success",
@@ -82,16 +84,16 @@ const createPaymentPreference = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(404).json({ message: "Something goes wrong" });
-  } 
+  }
 };
 
 const sendMail = async (req, res) => {
   try {
     // Obtener el correo electrónico del usuario desde la referencia externa
-    const correoUsuario = req.query.external_reference.email;
-    
-    //const orden = await Oc.findOne({ where: { loginuser: correoUsuario } });
+    const usuario = req.query.external_reference;
 
+    const user = User.findOne({ where: { sub: usuario } })
+    
     //if (orden) {
       // Actualizar el estado de la orden de compra a 'success'
       // orden.estadooc = 'Exitoso';
@@ -114,7 +116,7 @@ const sendMail = async (req, res) => {
 
       const mailOptions = {
         from: 'rocketparts8@gmail.com',
-        to: correoUsuario,
+        to: user.dataValues.email,
         subject: '¡Recibo de Compra!',
         html : htmlContent,
       };
