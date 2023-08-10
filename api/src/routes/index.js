@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {getProducts, obtenerProductoPorId, crearProducto, buscarProductos, getProductsAvailable, getProductsUnavailable, editarProducto, restarDisponibproducto } = require("../controllers/productControllers")
-const {getUsers, obtenerUserPorId, crearUser, actualizarUser} = require("../controllers/userControllers")
+const {getUsers, obtenerUserPorId, crearUser, actualizarUser, obtenerUserPorSub} = require("../controllers/userControllers")
 const { createPaymentPreference, receiveWebhook, sendMail } = require("../controllers/payamentContoller");
 const { getOrder } = require('../controllers/orderController');
 const { getReviews, createReview } = require('../controllers/reviewController');
 
 
 router.get("/users" , getUsers)
-router.get("/users/:id" , obtenerUserPorId)
+router.get("/users/:sub" , obtenerUserPorSub)
 router.post("/users", crearUser)
 router.put('/users/:id', actualizarUser);
 

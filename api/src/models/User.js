@@ -2,16 +2,12 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const User = sequelize.define('User', {
-    sub: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: true,
       unique: true,
-      primaryKey: true,
+      //primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
@@ -53,6 +49,11 @@ module.exports = (sequelize) => {
     telefono:{
       type:DataTypes.STRING,
       allowNull:true,
+    },
+    sub: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+
     },
   });
   
