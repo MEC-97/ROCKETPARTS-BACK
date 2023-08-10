@@ -82,7 +82,7 @@ const createPaymentPreference = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(404).json({ message: "Something goes wrong" });
-  }
+  } 
 };
 
 const sendMail = async (req, res) => {
