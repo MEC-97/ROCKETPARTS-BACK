@@ -60,28 +60,32 @@ const obtenerUserPorId = async (req, res) => {
 
 const crearUser = async (req, res) => {
   try{
-    const { name, nickname, email, picture, password, fechaNacimiento, direccion, telefono } = req.body
-    
-    const existingUser = await User.findOne({ where: { sub } });
+    console.log("Datos del usuario recibidos:", req.body);
+    const { sub } = req.body;
 
+    const existingUser = await User.findOne({
+      where: {
+        sub: sub
+      }
+    });
     if (existingUser) {
-      return res.status(409).json({ error: "User already exists" });
+      console.log("Usuario ya existe en la base de datos:", existingUser);
+      return res.status(200).json(existingUser);
     }
 
+    const { name, nickname, email, picture, password } = req.body;
+    
     const newUser = await User.create({
-        name, 
-        nickname, 
-        email, 
-        picture, 
-        password, 
-        fechaNacimiento, 
-        direccion, 
-        telefono ,
-        sub,
-    });      
-       
-    console.log("User creado", newUser)
-    res.status(201).json(newUser);
+      sub,
+      name,
+      nickname,
+      email,
+      picture,
+      password,
+    });
+
+    console.log("Usuario creado:", newUser);
+    res.status(201).json(newUser);    
   } catch (error) {
     console.error('Error al crear un nuevo usuario:', error);
     res.status(500).json({ error: 'Error al crear un nuevo usuario' });

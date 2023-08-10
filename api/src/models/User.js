@@ -2,24 +2,28 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const User = sequelize.define('User', {
+    sub: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
+      allowNull: true,
       unique: true,
       primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     nickname: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     emailVerified: {
       type: DataTypes.BOOLEAN,
@@ -32,7 +36,7 @@ module.exports = (sequelize) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
     },
     rol: {
       type: DataTypes.BOOLEAN,
@@ -40,7 +44,7 @@ module.exports = (sequelize) => {
     },
     fechaNacimiento: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
     direccion:{
       type:DataTypes.STRING,
@@ -48,7 +52,7 @@ module.exports = (sequelize) => {
     },
     telefono:{
       type:DataTypes.STRING,
-      allowNull:false,
+      allowNull:true,
     },
   });
   
