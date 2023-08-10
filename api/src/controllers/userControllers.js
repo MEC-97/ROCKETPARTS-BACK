@@ -7,7 +7,7 @@ const auth00 = new ManagementClient({
   clientId: "YWoSSAS6qZS9Wf65XTiwUgF9V4EnJP4h",
   clientSecret: process.env.AUTH0_CLIENT_SECRET, 
   scope: "read:users"
-})
+}) 
 
 const getAllUsers = async () => {
   try{
