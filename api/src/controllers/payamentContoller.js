@@ -91,9 +91,9 @@ const sendMail = async (req, res) => {
   try {
     // Obtener el correo electrónico del usuario desde la referencia externa
     const usuario = req.query.external_reference;
-
+     console.log(usuario)
     const user = User.findOne({ where: { sub: usuario } })
-    
+    console.log(user)
     //if (orden) {
       // Actualizar el estado de la orden de compra a 'success'
       // orden.estadooc = 'Exitoso';
