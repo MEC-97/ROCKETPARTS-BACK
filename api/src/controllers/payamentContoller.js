@@ -15,9 +15,6 @@ const createPaymentPreference = async (req, res) => {
   
    
   try {
-   const user = await User.findOne({ where: { sub: usuario } });
-  //console.log(user.dataValues.email)
-  
     await new Promise((resolve, reject) => {
       
       let preference = {
@@ -32,7 +29,7 @@ const createPaymentPreference = async (req, res) => {
           email: "test_user_200519321@testuser.com"
         },
         notification_url: "https://rocketparts-back-production.up.railway.app/webhook",
-        external_reference: user.dataValues.toString(email), // Convertir el correo electrónico a una cadena
+        external_reference: usuario, // Convertir el correo electrónico a una cadena
     // Asignar el correo electrónico del usuario
         back_urls: {
           success: "http://localhost:3000/Success" ,  //"https://rocketparts-frontt-ohfz.vercel.app/Success",
@@ -91,7 +88,7 @@ const createPaymentPreference = async (req, res) => {
 const sendMail = async (req, res) => {
   try {
     // Obtener el correo electrónico del usuario desde la referencia externa
-    const correoUsuario = req.query.external_reference;
+    const correoUsuario = req.query.external_reference.email;
     
     //const orden = await Oc.findOne({ where: { loginuser: correoUsuario } });
 
