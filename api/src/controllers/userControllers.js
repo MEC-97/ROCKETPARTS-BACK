@@ -28,7 +28,7 @@ const getUsers = async (req, res) => {
 
 //prueba para obtener por sub
 const obtenerUserPorSub = async (req, res) => {
-  const sub = req.user.sub;
+  const sub = req.sub;
   try {
     const user = await User.findOne({ where: { sub }});
     if (user){

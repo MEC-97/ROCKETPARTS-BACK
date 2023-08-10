@@ -223,6 +223,9 @@ const editarProducto = async (req, res) => {
       return res.status(404).json({ mensaje: 'Producto no encontrado' });
     }
 
+    // Store the original disponibproducto value
+    const originalDisponibproducto = product.disponibproducto;
+
     // Update the product properties
     product.nombreproducto = nombreproducto;
     product.descproducto = descproducto;
@@ -232,6 +235,11 @@ const editarProducto = async (req, res) => {
     product.disponibproducto = disponibproducto;
     product.categoria = categoria;
     product.marca = marca;
+
+    // Check if disponibproducto has been changed from 0 to a positive value
+    if (originalDisponibproducto === 0 && disponibproducto > 0) {
+      product.dispoboleano = true;
+    }
 
     // Save the updated product to the database
     await product.save();
@@ -259,6 +267,11 @@ const restarDisponibproducto = async (req, res) => {
     // Restar 1 a la propiedad dispoproducto
     existingProduct.disponibproducto = existingProduct.disponibproducto - 1;
 
+    // Verificar si disponibproducto llegó a 0 y actualizar dispoboleano
+    if (existingProduct.disponibproducto === 0) {
+      existingProduct.dispoboleano = false;
+    }
+
     // Guardar los cambios en la base de datos
     await existingProduct.save();
 
@@ -268,6 +281,7 @@ const restarDisponibproducto = async (req, res) => {
     res.status(500).json({ error: 'Error al restar dispoproducto' });
   }
 };
+
 
 
 

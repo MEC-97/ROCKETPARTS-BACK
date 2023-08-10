@@ -31,12 +31,12 @@ const createPaymentPreference = async (req, res) => {
         payer: {
           email: "test_user_200519321@testuser.com"
         },
-        notification_url: "https://eb5d-191-82-50-102.ngrok.io/webhook",
-        //external_reference: user.dataValues.toString(email), // Convertir el correo electrónico a una cadena
+        notification_url: "https://rocketparts-back-production.up.railway.app/webhook",
+       // external_reference: user.dataValues.toString(email), // Convertir el correo electrónico a una cadena
     // Asignar el correo electrónico del usuario
         back_urls: {
-          success: "http://localhost:3000/Success",
-          failure: "http://localhost:3000",
+          success: "http://localhost:3000/Success" ,  //"https://rocketparts-frontt-ohfz.vercel.app/Success",
+          failure: "http://localhost:3000",           //"https://rocketparts-frontt-ohfz.vercel.app",
           pending: "",
         },
         auto_return: "approved",
