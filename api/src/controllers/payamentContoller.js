@@ -86,7 +86,7 @@ const createPaymentPreference = async (req, res) => {
     return res.status(404).json({ message: "Something goes wrong" });
   }
 };
-
+ 
 const sendMail = async (req, res) => {
   try {
     // Obtener el correo electrónico del usuario desde la referencia externa
